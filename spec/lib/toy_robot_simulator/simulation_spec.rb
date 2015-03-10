@@ -10,6 +10,10 @@ module ToyRobotSimulator
       expect(simulation).to respond_to :start
     end
 
+    it 'takes place on a table', public: true do
+      expect(simulation.table).to be_kind_of Table
+    end
+
     context 'when started' do
 
       it 'sends a welcome message', public: true do
