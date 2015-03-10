@@ -8,7 +8,10 @@ A kata which goal is simulating [a toy robot roaming around a table][problem].
 Usage
 -----
 
-_To do._
+```
+# Run the simulation
+./bin/toy_robot_simulator.rb
+```
 
 Development
 -----------
