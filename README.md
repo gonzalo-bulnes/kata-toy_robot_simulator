@@ -5,6 +5,27 @@ A kata which goal is simulating [a toy robot roaming around a table][problem].
 
   [problem]: PROBLEM.md
 
+Usage
+-----
+
+_To do._
+
+Development
+-----------
+
+### Testing and documentation
+
+RSpec [tags][tags] are used to categorize the spec examples.
+
+Spec examples that are tagged as `public` describe aspects of the gem public API, and MAY be considered as the gem documentation.
+
+The `private` or `protected` specs are written for development purpose only. Because they describe internal behaviour which may change at any moment without notice, they are only executed as a secondary task and SHOULD be ignored.
+
+Run `rake spec:public` to print the gem public documentation.
+
+  [rspec]: https://www.relishapp.com/rspec/rspec-rails/docs
+  [tags]: https://www.relishapp.com/rspec/rspec-core/v/3-2/docs/command-line/tag-option
+
 License
 -------
 
