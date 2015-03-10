@@ -14,6 +14,10 @@ module ToyRobotSimulator
       expect(simulation.table).to be_kind_of Table
     end
 
+    it 'involves a robot', public: true do
+      expect(simulation.robot).to be_kind_of Robot
+    end
+
     context 'when started' do
 
       it 'sends a welcome message', public: true do
