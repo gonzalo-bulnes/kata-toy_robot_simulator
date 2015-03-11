@@ -3,66 +3,66 @@ module ToyRobotSimulator
   # A moving robot
   class Robot
 
-    # Private: Return the robot current location
-    attr_reader :location
+    # Private: Return the robot current situation
+    attr_reader :situation
 
-    private :location
+    private :situation
 
     def initialize
-      @location = [0, 1, :north]
+      @situation = [0, 1, :north]
     end
 
-    # Update the robot current location to face the direction at its left
+    # Update the robot current situation to face the direction at its left
     def left
-      case location.last
+      case situation.last
       when :north
-        @location[2] = :west
+        @situation[2] = :west
       when :east
-        @location[2] = :north
+        @situation[2] = :north
       when :south
-        @location[2] = :east
+        @situation[2] = :east
       when :west
-        @location[2] = :south
+        @situation[2] = :south
       end
     end
 
-    # Update the robot current location to face the direction at its right
+    # Update the robot current situation to face the direction at its right
     def right
-      case location.last
+      case situation.last
       when :north
-        @location[2] = :east
+        @situation[2] = :east
       when :east
-        @location[2] = :south
+        @situation[2] = :south
       when :south
-        @location[2] = :west
+        @situation[2] = :west
       when :west
-        @location[2] = :north
+        @situation[2] = :north
       end
     end
 
-    # Update the robot current location one unit toward in the direction it faces
+    # Update the robot current situation one unit toward in the direction it faces
     def move
-      case location.last
+      case situation.last
       when :north
-        @location[1] += 1
+        @situation[1] += 1
       when :east
-        @location[0] += 1
+        @situation[0] += 1
       when :south
-        @location[1] -= 1
+        @situation[1] -= 1
       when :west
-        @location[0] -= 1
+        @situation[0] -= 1
       end
     end
 
-    # Update the robot current location
-    def place(location)
-      @location = location
+    # Update the robot current situation
+    def place(situation)
+      @situation = situation
       nil
     end
 
-    # Return the robot current location
+    # Return the robot current situation
     def report
-      location.join(',').upcase
+      situation.join(',').upcase
     end
   end
 end

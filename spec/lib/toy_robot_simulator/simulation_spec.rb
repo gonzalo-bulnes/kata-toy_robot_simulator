@@ -73,7 +73,7 @@ module ToyRobotSimulator
 
       context 'when command is `REPORT`' do
 
-        it 'outputs the robot location' do
+        it 'outputs the robot situation' do
           expect(output).to receive(:print).with("0,1,NORTH\n")
           simulation.input('REPORT')
         end
@@ -81,7 +81,7 @@ module ToyRobotSimulator
 
       context 'when command is `PLACE`' do
 
-        it 'updates the robot location quietly' do
+        it 'updates the robot situation quietly' do
           simulation.input('PLACE 2,1,EAST')
           expect(simulation.robot.report).to eq '2,1,EAST'
         end
@@ -89,7 +89,7 @@ module ToyRobotSimulator
 
       context 'when command is `MOVE`' do
 
-        it 'updates the robot location quietly' do
+        it 'updates the robot situation quietly' do
           simulation.input('PLACE 2,1,EAST')
           simulation.input('MOVE')
           expect(simulation.robot.report).to eq '3,1,EAST'
