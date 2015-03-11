@@ -1,10 +1,16 @@
+require 'toy_robot_simulator/robot'
+
 module ToyRobotSimulator
 
   # Handle users input and output feedback
   class Simulation
 
+    # Return the simulated Robot
+    attr_reader :robot
+
     def initialize(output)
       @output = output
+      @robot = Robot.new
     end
 
     # Start the simulation so the user can input commands
@@ -23,13 +29,27 @@ module ToyRobotSimulator
     def input(command)
       @output.print "#{command.chomp}..."
 
-      feedback = valid_command?(command) ? " done\n" : " invalid\n"
+      robot_command = known_command?(command)
+
+      unless robot_command.nil?
+
+        robot_command_name = robot_command.first # just to make it obvious
+
+        if @robot.respond_to? robot_command_name
+          command_output = @robot.send(*robot_command)
+        end
+        feedback =  " done\n"
+      else
+        feedback =  " invalid\n"
+      end
+
       @output.print feedback
+      @output.print "#{command_output}\n" unless command_output.nil?
     end
 
     private
 
-      # Private: Return true when a command is valid, else false
+      # Private: Return known command or nil
       #
       # The parsing is quite strict for now, eventually
       # an effort could be done to be more toleant on user
@@ -37,20 +57,22 @@ module ToyRobotSimulator
       # spaces).
       #
       # command - an user command String
-      def valid_command?(command)
+      #
+      # Returns an Array of arguments to `send` a known command to a Robot, or nil
+      def known_command?(command)
         case command
         when /\AREPORT\z/
-          return true
+          return [:report]
         when /\AMOVE\z/
-          return true
+          return [:move]
         when /\ALEFT\z/
-          return true
+          return [:left]
         when /\ARIGHT\z/
-          return true
-        when /\APLACE \d+,\d+,(SOUTH|EAST|NORTH|WEST)\z/
-          return true
+          return [:right]
+        when /\APLACE (\d+),(\d+),((SOUTH|EAST|NORTH|WEST))\z/
+          return [:place, [$1.to_i, $2.to_i, $3.downcase.to_sym]]
         else
-          return false
+          return nil
         end
       end
   end

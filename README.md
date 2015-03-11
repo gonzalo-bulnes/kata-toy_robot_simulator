@@ -8,13 +8,29 @@ A _kata_ which goal is simulating [a toy robot roaming around a table][problem].
 Usage
 -----
 
-```
+```bash
 # If necessary allow the simulator to be executed
 #chmod u+x ./bin/toy_robot_simulator
 
 # Run the simulation
 ./bin/toy_robot_simulator
+
+# Then type commands to simulate the robot motion,
+# and type Ctrl+D to exit.
 ```
+
+### Commands
+
+#### Conventions
+
+he robot location is represented by the vector `(x,y,ORIENTATION)`, where `x` and `y` are integers and `ORIENTATION` is `SOUTH`, `EAST`, `NORTH` or `WEST`. Conventionally, `x` does increase toward `EAST` and decrease toward `WEST`, while `y` does increase toward `NORTH` and decrease toward `SOUTH`.
+
+#### Index
+
+- `REPORT` does print the current robot location
+- `PLACE x,y,ORIENTATION` does place the robot at the specified location
+- `MOVE` does move the robot one unit in the direction it is facing
+- `LEFT` and `RIGHT` do rotate it to its left, respectively right.
 
 Development
 -----------
