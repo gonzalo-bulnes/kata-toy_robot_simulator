@@ -44,7 +44,7 @@ module ToyRobotSimulator
       end
 
       @output.print feedback
-      @output.print command_output unless command_output.nil?
+      @output.print "#{command_output}\n" unless command_output.nil?
     end
 
     private

@@ -70,7 +70,7 @@ module ToyRobotSimulator
       context 'when command is `REPORT`' do
 
         it 'outputs the robot location' do
-          expect(output).to receive(:print).with('0,1,NORTH')
+          expect(output).to receive(:print).with("0,1,NORTH\n")
           simulation.input('REPORT')
         end
       end
