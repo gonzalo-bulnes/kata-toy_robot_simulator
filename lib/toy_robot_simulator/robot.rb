@@ -2,6 +2,7 @@ module ToyRobotSimulator
   class Robot
 
     def initialize
+      @location = nil
       @off_the_table = true
     end
 
