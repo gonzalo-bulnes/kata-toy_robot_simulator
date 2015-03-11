@@ -9,12 +9,18 @@ module ToyRobotSimulator
     private :location
 
     def initialize
-      @location = '0,1,NORTH'
+      @location = [0, 1, :north]
+    end
+
+    # Update the robot current location
+    def place(location)
+      @location = location
+      nil
     end
 
     # Return the robot current location
     def report
-      location
+      location.join(',').upcase
     end
   end
 end

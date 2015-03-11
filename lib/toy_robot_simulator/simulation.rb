@@ -44,7 +44,7 @@ module ToyRobotSimulator
       end
 
       @output.print feedback
-      @output.print command_output
+      @output.print command_output unless command_output.nil?
     end
 
     private
@@ -70,7 +70,7 @@ module ToyRobotSimulator
         when /\ARIGHT\z/
           return [:right]
         when /\APLACE (\d+),(\d+),((SOUTH|EAST|NORTH|WEST))\z/
-          return [:place, $1.to_i, $2.to_i, $3.downcase.to_sym]
+          return [:place, [$1.to_i, $2.to_i, $3.downcase.to_sym]]
         else
           return nil
         end

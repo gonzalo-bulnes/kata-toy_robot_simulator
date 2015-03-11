@@ -74,6 +74,14 @@ module ToyRobotSimulator
           simulation.input('REPORT')
         end
       end
+
+      context 'when command is `PLACE`' do
+
+        it 'updates the robot location quietly' do
+          simulation.input('PLACE 2,1,EAST')
+          expect(simulation.robot.report).to eq '2,1,EAST'
+        end
+      end
     end
   end
 end
