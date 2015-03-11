@@ -13,7 +13,14 @@ module ToyRobotSimulator
     end
 
     # Update the robot current situation to face the direction at its left
-    def left
+    #
+    # The table where the robot is located is not necessary by itself,
+    # but it SHOULD be provided as a good practice in order to
+    # enforce a standard signature for command methods.
+    # You SHOULD provide it, again, but nobody is spying on you.
+    #
+    # table - the table where the robot is located, SHOULD be provided
+    def left(table=nil)
       case situation.last
       when :north
         @situation[2] = :west
@@ -27,7 +34,14 @@ module ToyRobotSimulator
     end
 
     # Update the robot current situation to face the direction at its right
-    def right
+    #
+    # The table where the robot is located is not necessary by itself,
+    # but it SHOULD be provided as a good practice in order to
+    # enforce a standard signature for command methods.
+    # You SHOULD provide it, again, but nobody is spying on you.
+    #
+    # table - the table where the robot is located, SHOULD be provided
+    def right(table=nil)
       case situation.last
       when :north
         @situation[2] = :east
@@ -41,7 +55,14 @@ module ToyRobotSimulator
     end
 
     # Update the robot current situation one unit toward in the direction it faces
-    def move
+    #
+    # The table where the robot is located is not necessary by itself,
+    # but it SHOULD be provided as a good practice in order to
+    # enforce a standard signature for command methods.
+    # You SHOULD provide it, again, but nobody is spying on you.
+    #
+    # table - the table where the robot is located, SHOULD be provided
+    def move(table=nil)
       case situation.last
       when :north
         @situation[1] += 1
@@ -54,14 +75,26 @@ module ToyRobotSimulator
       end
     end
 
-    # Update the robot current situation
-    def place(situation)
+    # Place the robot on the table, in the given situation
+    #
+    # table - a Table
+    # situation - the situation the robot should have on the table
+    #
+    # Returns nil. (Mainly used to produce no output.)
+    def place(table, situation)
       @situation = situation
       nil
     end
 
     # Return the robot current situation
-    def report
+    #
+    # The table where the robot is located is not necessary by itself,
+    # but it SHOULD be provided as a good practice in order to
+    # enforce a standard signature for command methods.
+    # You SHOULD provide it, again, but nobody is spying on you.
+    #
+    # table - the table where the robot is located, SHOULD be provided
+    def report(table=nil)
       situation.join(',').upcase
     end
   end

@@ -38,10 +38,11 @@ module ToyRobotSimulator
 
       unless robot_command.nil?
 
-        robot_command_name = robot_command.first # just to make it obvious
+        robot_command_name = robot_command.shift # just to make it obvious
+        robot_command_arguments = [table] + robot_command # the remaining arguments and the table
 
         if @robot.respond_to? robot_command_name
-          command_output = @robot.send(*robot_command)
+          command_output = @robot.send(robot_command_name, *robot_command_arguments)
         end
         feedback =  " done\n"
       else
