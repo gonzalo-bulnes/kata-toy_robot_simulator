@@ -1,14 +1,13 @@
 module ToyRobotSimulator
   class Simulation
 
-    private :valid_command?
-
     def initialize(output)
       @output = output
     end
 
     def start
       @output.puts "Welcome to Toy Robot Simulator! (Press Ctrl+D to exit.)"
+      @output.puts "\nReady to receive commands when you are:\n"
     end
 
     def input(command)

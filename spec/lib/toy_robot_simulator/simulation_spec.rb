@@ -17,7 +17,14 @@ module ToyRobotSimulator
     context 'when started' do
 
       it 'outputs a welcome message', public: true do
+        allow(output).to receive(:puts).with("\nReady to receive commands when you are:\n")
         expect(output).to receive(:puts).with('Welcome to Toy Robot Simulator! (Press Ctrl+D to exit.)')
+        simulation.start()
+      end
+
+      it 'prompts for commands', public: true do
+        allow(output).to receive(:puts).with('Welcome to Toy Robot Simulator! (Press Ctrl+D to exit.)')
+        expect(output).to receive(:puts).with("\nReady to receive commands when you are:\n")
         simulation.start()
       end
     end
