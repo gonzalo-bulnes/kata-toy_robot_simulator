@@ -18,11 +18,12 @@ Objects
 
 The simulator involves a **robot**, and a **table**. It also receives user input and outputs as well. I've seen something similar done in a _kata_ from [The RSpec Book][rspec-book], which involved an additional object called **game** to handle interaction with the user - player. Let's call our wrapper **simulation**.
 
+  [rspec-book]: https://pragprog.com/book/achbd/the-rspec-book
 
 Iterations
 ----------
 
-1. Let's accept user input so they can play inputing commands even if those do nothing (file or interactive prompt).
+1. [[Done][PR#2]] Let's accept user input so they can play inputing commands even if those do nothing (file or interactive prompt).
 1. Allow input from a file (or allow interactive input if file input implementation was easier)
 1. Log received commands (for debug, or user feedback)
 1. Move the robot:
@@ -34,3 +35,5 @@ Iterations
 1. Add initial placement condition (ignore input until the robot is PLACEd - **beware of possible invalid PLACE commands!**)
 1. Add table boundaries constraints (I like the idea of defining the table through its boundaries, it's quite extensible)
 1. Add some color to output? (Could that produce noise in any terminals?)
+
+  [PR#2]: https://github.com/gonzalo-bulnes/kata-toy_robot_simulator/pull/2

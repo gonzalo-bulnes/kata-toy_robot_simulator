@@ -1,3 +1,5 @@
+require 'toy_robot_simulator'
+
 Dir["./spec/support/**/*.rb"].sort.each { |f| require f; puts f }
 
 # See http://rubydoc.info/gems/rspec-core/RSpec/Core/Configuration
