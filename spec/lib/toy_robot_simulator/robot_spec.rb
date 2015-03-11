@@ -35,6 +35,15 @@ module ToyRobotSimulator
       it 'returns the robot current situation' do
         expect(robot.report).to eq '0,1,NORTH'
       end
+
+      context 'when the robot is off the table' do
+
+        it 'suggests to place it on the table' do
+          allow(robot).to receive(:off_the_table?).and_return(true)
+
+          expect(robot.report).to eq 'The robot is off the table. Hint: try to PLACE it.'
+        end
+      end
     end
 
     describe '#place', public: true do
@@ -45,6 +54,15 @@ module ToyRobotSimulator
     end
 
     describe '#move', public: true do
+
+      context 'when the robot is off the table' do
+
+        it 'suggests to place it on the table' do
+          allow(robot).to receive(:off_the_table?).and_return(true)
+
+          expect(robot.move).to eq 'The robot is off the table. Hint: try to PLACE it.'
+        end
+      end
 
       context 'when the robot is facing EAST' do
         it 'moves the robot 1 unit toward EAST (first corrdinate increase)' do
@@ -81,6 +99,15 @@ module ToyRobotSimulator
 
     describe '#left', public: true do
 
+      context 'when the robot is off the table' do
+
+        it 'suggests to place it on the table' do
+          allow(robot).to receive(:off_the_table?).and_return(true)
+
+          expect(robot.left).to eq 'The robot is off the table. Hint: try to PLACE it.'
+        end
+      end
+
       context 'when the robot is facing EAST' do
         it 'rotates the robot to face NORTH' do
           robot.place(table, [3, 2, :east])
@@ -115,6 +142,15 @@ module ToyRobotSimulator
     end
 
     describe '#right', public: true do
+
+      context 'when the robot is off the table' do
+
+        it 'suggests to place it on the table' do
+          allow(robot).to receive(:off_the_table?).and_return(true)
+
+          expect(robot.right).to eq 'The robot is off the table. Hint: try to PLACE it.'
+        end
+      end
 
       context 'when the robot is facing EAST' do
         it 'rotates the robot to face SOUTH' do

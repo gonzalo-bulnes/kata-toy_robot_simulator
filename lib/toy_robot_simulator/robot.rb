@@ -21,6 +21,9 @@ module ToyRobotSimulator
     #
     # table - the table where the robot is located, SHOULD be provided
     def left(table=nil)
+
+      return hint_to_place_the_robot_on_the_table if off_the_table?
+
       case situation.last
       when :north
         @situation[2] = :west
@@ -42,6 +45,9 @@ module ToyRobotSimulator
     #
     # table - the table where the robot is located, SHOULD be provided
     def right(table=nil)
+
+      return hint_to_place_the_robot_on_the_table if off_the_table?
+
       case situation.last
       when :north
         @situation[2] = :east
@@ -63,6 +69,9 @@ module ToyRobotSimulator
     #
     # table - the table where the robot is located, SHOULD be provided
     def move(table=nil)
+
+      return hint_to_place_the_robot_on_the_table if off_the_table?
+
       case situation.last
       when :north
         @situation[1] += 1
@@ -95,7 +104,21 @@ module ToyRobotSimulator
     #
     # table - the table where the robot is located, SHOULD be provided
     def report(table=nil)
+
+      return hint_to_place_the_robot_on_the_table if off_the_table?
+
       situation.join(',').upcase
     end
+
+    private
+
+      def hint_to_place_the_robot_on_the_table
+        'The robot is off the table. Hint: try to PLACE it.'
+      end
+
+      def off_the_table?
+        @situation.nil?
+      end
+
   end
 end
