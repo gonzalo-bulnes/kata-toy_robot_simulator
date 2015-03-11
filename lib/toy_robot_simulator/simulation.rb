@@ -1,15 +1,25 @@
 module ToyRobotSimulator
+
+  # Handle users input and output feedback
   class Simulation
 
     def initialize(output)
       @output = output
     end
 
+    # Start the simulation so the user can input commands
     def start
       @output.puts "Welcome to Toy Robot Simulator! (Press Ctrl+D to exit.)"
       @output.puts "\nReady to receive commands when you are:\n"
     end
 
+    # Process a simulator command
+    #
+    # Receives a command, validates it and outputs feedback.
+    #
+    # command - an user command String
+    #
+    # Returns nothing of interest.
     def input(command)
       @output.print "#{command.chomp}..."
 
