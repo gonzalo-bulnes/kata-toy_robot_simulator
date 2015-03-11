@@ -14,6 +14,10 @@ module ToyRobotSimulator
       expect(simulation).to respond_to :input
     end
 
+    it 'involves a robot', public: true do
+      expect(simulation).to respond_to :robot
+    end
+
     context 'when started' do
 
       it 'outputs a welcome message', public: true do
@@ -31,9 +35,12 @@ module ToyRobotSimulator
 
     context 'on user input', public: true do
 
+      before(:each) do
+        allow(output).to receive(:print) # let's ignore the calls to :print that we're not targetting
+      end
+
       it 'gives immediate feedback' do
         command = 'PLACE 0,0,SOUTH'
-        allow(output).to receive(:print) # let's ignore other calls to :print
         expect(output).to receive(:print).with command + '...'
         simulation.input command
       end
@@ -45,7 +52,6 @@ module ToyRobotSimulator
          'MOVE', 'REPORT',  'LEFT', 'RIGHT'].each do |command|
 
           it "\'#{command}\' is valid" do
-            allow(output).to receive(:print) # let's ignore other calls to :print
             expect(output).to receive(:print).with " done\n"
             simulation.input command
           end
@@ -55,10 +61,17 @@ module ToyRobotSimulator
          'PRINT', 'report',  'ROTATE', 'LEFT RIGHT'].each do |command|
 
           it "\'#{command}\' is invalid" do
-            allow(output).to receive(:print) # let's ignore other calls to :print
             expect(output).to receive(:print).with " invalid\n"
             simulation.input command
           end
+        end
+      end
+
+      context 'when command is `REPORT`' do
+
+        it 'outputs the robot location' do
+          expect(output).to receive(:puts).with('0,1,NORTH')
+          simulation.input('REPORT')
         end
       end
     end

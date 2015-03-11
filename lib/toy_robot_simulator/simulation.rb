@@ -1,10 +1,16 @@
+require 'toy_robot_simulator/robot'
+
 module ToyRobotSimulator
 
   # Handle users input and output feedback
   class Simulation
 
+    # Return the simulated Robot
+    attr_reader :robot
+
     def initialize(output)
       @output = output
+      @robot = Robot.new
     end
 
     # Start the simulation so the user can input commands
