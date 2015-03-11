@@ -4,3 +4,7 @@ require 'toy_robot_simulator'
 
 simulation = ToyRobotSimulator::Simulation.new(STDOUT)
 simulation.start
+
+while command = gets
+  simulation.input(command.chomp)
+end
