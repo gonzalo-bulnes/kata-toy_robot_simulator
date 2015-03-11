@@ -12,6 +12,34 @@ module ToyRobotSimulator
       @location = [0, 1, :north]
     end
 
+    # Update the robot current location to face the direction at its left
+    def left
+      case location.last
+      when :north
+        @location[2] = :west
+      when :east
+        @location[2] = :north
+      when :south
+        @location[2] = :east
+      when :west
+        @location[2] = :south
+      end
+    end
+
+    # Update the robot current location to face the direction at its right
+    def right
+      case location.last
+      when :north
+        @location[2] = :east
+      when :east
+        @location[2] = :south
+      when :south
+        @location[2] = :west
+      when :west
+        @location[2] = :north
+      end
+    end
+
     # Update the robot current location one unit toward in the direction it faces
     def move
       case location.last
