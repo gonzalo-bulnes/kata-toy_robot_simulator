@@ -70,8 +70,7 @@ module ToyRobotSimulator
       context 'when command is `REPORT`' do
 
         it 'outputs the robot location' do
-          pending 'Not yet implemented.'
-          expect(output).to receive(:puts).with('0,1,NORTH')
+          expect(output).to receive(:print).with('0,1,NORTH')
           simulation.input('REPORT')
         end
       end

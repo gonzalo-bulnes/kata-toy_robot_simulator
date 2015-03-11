@@ -32,12 +32,19 @@ module ToyRobotSimulator
       robot_command = known_command?(command)
 
       unless robot_command.nil?
+
+        robot_command_name = robot_command.first # just to make it obvious
+
+        if @robot.respond_to? robot_command_name
+          command_output = @robot.send(*robot_command)
+        end
         feedback =  " done\n"
       else
         feedback =  " invalid\n"
       end
 
       @output.print feedback
+      @output.print command_output
     end
 
     private
