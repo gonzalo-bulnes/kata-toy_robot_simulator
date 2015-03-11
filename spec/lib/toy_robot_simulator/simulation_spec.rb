@@ -30,6 +30,30 @@ module ToyRobotSimulator
         expect(output).to receive(:print).with command + '...'
         simulation.input command
       end
+
+      describe 'discards invalid input' do
+
+        ['PLACE 1,2,EAST', 'PLACE 1,2,SOUTH', 'PLACE 0,0,WEST', 'PLACE 0,0,NORTH',
+         'PLACE 123,21,EAST', 'PLACE 11,2,SOUTH', 'PLACE 0,043,WEST', 'PLACE 0,10,NORTH',
+         'MOVE', 'REPORT',  'LEFT', 'RIGHT'].each do |command|
+
+          it "\'#{command}\' is valid" do
+            allow(output).to receive(:print) # let's ignore other calls to :print
+            expect(output).to receive(:print).with " done\n"
+            simulation.input command
+          end
+        end
+
+        ['PLACE! 1,2,EAST', 'PLACE SOUTH,1,2', 'PLACE 0xB,0,WEST',
+         'PRINT', 'report',  'ROTATE', 'LEFT RIGHT'].each do |command|
+
+          it "\'#{command}\' is invalid" do
+            allow(output).to receive(:print) # let's ignore other calls to :print
+            expect(output).to receive(:print).with " invalid\n"
+            simulation.input command
+          end
+        end
+      end
     end
   end
 end
