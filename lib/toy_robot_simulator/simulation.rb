@@ -29,7 +29,14 @@ module ToyRobotSimulator
     def input(command)
       @output.print "#{command.chomp}..."
 
-      feedback = valid_command?(command) ? " done\n" : " invalid\n"
+      robot_command = known_command?(command)
+
+      unless robot_command.nil?
+        feedback =  " done\n"
+      else
+        feedback =  " invalid\n"
+      end
+
       @output.print feedback
     end
 
@@ -60,18 +67,6 @@ module ToyRobotSimulator
         else
           return nil
         end
-      end
-
-      # Private: Return true when a command is valid, else false
-      #
-      # The parsing is quite strict for now, eventually
-      # an effort could be done to be more toleant on user
-      # input (e.g. be case insensitive, or tolerate multiple
-      # spaces).
-      #
-      # command - an user command String
-      def valid_command?(command)
-        !known_command?(command).nil?
       end
   end
 end
