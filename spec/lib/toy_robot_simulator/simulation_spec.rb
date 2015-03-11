@@ -82,6 +82,33 @@ module ToyRobotSimulator
           expect(simulation.robot.report).to eq '2,1,EAST'
         end
       end
+
+      context 'when command is `MOVE`' do
+
+        it 'updates the robot location quietly' do
+          simulation.input('PLACE 2,1,EAST')
+          simulation.input('MOVE')
+          expect(simulation.robot.report).to eq '3,1,EAST'
+        end
+      end
+
+      context 'when command is `LEFT`' do
+
+        it 'updates the robot orientation quietly' do
+          simulation.input('PLACE 2,1,EAST')
+          simulation.input('LEFT')
+          expect(simulation.robot.report).to eq '2,1,NORTH'
+        end
+      end
+
+      context 'when command is `RIGHT`' do
+
+        it 'updates the robot orientation quietly' do
+          simulation.input('PLACE 2,1,EAST')
+          simulation.input('RIGHT')
+          expect(simulation.robot.report).to eq '2,1,SOUTH'
+        end
+      end
     end
   end
 end
