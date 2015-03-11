@@ -18,6 +18,10 @@ module ToyRobotSimulator
       expect(simulation).to respond_to :robot
     end
 
+    it 'involves a table', public: true do
+      expect(simulation).to respond_to :table
+    end
+
     context 'when started' do
 
       it 'outputs a welcome message', public: true do

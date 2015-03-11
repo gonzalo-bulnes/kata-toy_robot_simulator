@@ -1,4 +1,5 @@
 require 'toy_robot_simulator/robot'
+require 'toy_robot_simulator/table'
 
 module ToyRobotSimulator
 
@@ -8,9 +9,13 @@ module ToyRobotSimulator
     # Return the simulated Robot
     attr_reader :robot
 
+    # Return the simulated Table
+    attr_reader :table
+
     def initialize(output)
       @output = output
       @robot = Robot.new
+      @table = Table.new
     end
 
     # Start the simulation so the user can input commands
