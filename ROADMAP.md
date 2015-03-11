@@ -26,7 +26,7 @@ Iterations
 1. [[Done][PR#2]] Let's accept user input so they can play inputing commands even if those do nothing (file or interactive prompt).
 1. [Skipped] Allow input from a file (or allow interactive input if file input implementation was easier)
 1. [[Done][PR#2]] Log received commands (for debug, or user feedback)
-1. Move the robot:
+1. [[Done][PR#3]] Move the robot:
   - REPORT (makes debgging easier)
   - PLACE
   - MOVE
@@ -37,3 +37,4 @@ Iterations
 1. Add some color to output? (Could that produce noise in any terminals?)
 
   [PR#2]: https://github.com/gonzalo-bulnes/kata-toy_robot_simulator/pull/2
+  [PR#3]: https://github.com/gonzalo-bulnes/kata-toy_robot_simulator/pull/3
