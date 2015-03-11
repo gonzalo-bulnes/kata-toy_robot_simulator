@@ -24,8 +24,8 @@ Iterations
 ----------
 
 1. [[Done][PR#2]] Let's accept user input so they can play inputing commands even if those do nothing (file or interactive prompt).
-1. Allow input from a file (or allow interactive input if file input implementation was easier)
-1. Log received commands (for debug, or user feedback)
+1. [Skipped] Allow input from a file (or allow interactive input if file input implementation was easier)
+1. [[Done][PR#2]] Log received commands (for debug, or user feedback)
 1. Move the robot:
   - REPORT (makes debgging easier)
   - PLACE

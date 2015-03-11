@@ -8,7 +8,7 @@ A _kata_ which goal is simulating [a toy robot roaming around a table][problem].
 Usage
 -----
 
-```
+```bash
 # If necessary allow the simulator to be executed
 #chmod u+x ./bin/toy_robot_simulator
 
