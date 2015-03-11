@@ -35,6 +35,33 @@ module ToyRobotSimulator
 
     private
 
+      # Private: Return known command or nil
+      #
+      # The parsing is quite strict for now, eventually
+      # an effort could be done to be more toleant on user
+      # input (e.g. be case insensitive, or tolerate multiple
+      # spaces).
+      #
+      # command - an user command String
+      #
+      # Returns an Array of arguments to `send` a known command to a Robot, or nil
+      def known_command?(command)
+        case command
+        when /\AREPORT\z/
+          return [:report]
+        when /\AMOVE\z/
+          return [:move]
+        when /\ALEFT\z/
+          return [:left]
+        when /\ARIGHT\z/
+          return [:right]
+        when /\APLACE (\d+),(\d+),((SOUTH|EAST|NORTH|WEST))\z/
+          return [:place, $1.to_i, $2.to_i, $3.downcase.to_sym]
+        else
+          return nil
+        end
+      end
+
       # Private: Return true when a command is valid, else false
       #
       # The parsing is quite strict for now, eventually
@@ -44,20 +71,7 @@ module ToyRobotSimulator
       #
       # command - an user command String
       def valid_command?(command)
-        case command
-        when /\AREPORT\z/
-          return true
-        when /\AMOVE\z/
-          return true
-        when /\ALEFT\z/
-          return true
-        when /\ARIGHT\z/
-          return true
-        when /\APLACE \d+,\d+,(SOUTH|EAST|NORTH|WEST)\z/
-          return true
-        else
-          return false
-        end
+        !known_command?(command).nil?
       end
   end
 end
