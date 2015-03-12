@@ -70,7 +70,7 @@ module ToyRobotSimulator
         it 'suggests to place it on the table' do
           allow(robot).to receive(:off_the_table?).and_return(true)
 
-          expect(robot.move).to eq 'The robot is off the table. Hint: try to PLACE it.'
+          expect(robot.move(table)).to eq 'The robot is off the table. Hint: try to PLACE it.'
         end
       end
 
@@ -78,7 +78,7 @@ module ToyRobotSimulator
         it 'moves the robot 1 unit toward EAST (first corrdinate increase)' do
           robot.place(table, [3, 2, :east])
 
-          expect{ robot.move }.to change{ robot.report }.from('3,2,EAST').to('4,2,EAST')
+          expect{ robot.move(table) }.to change{ robot.report }.from('3,2,EAST').to('4,2,EAST')
         end
       end
 
@@ -86,7 +86,7 @@ module ToyRobotSimulator
         it 'moves the robot 1 unit toward SOUTH (second coordinate descrease)' do
           robot.place(table, [3, 2, :south])
 
-          expect{ robot.move }.to change{ robot.report }.from('3,2,SOUTH').to('3,1,SOUTH')
+          expect{ robot.move(table) }.to change{ robot.report }.from('3,2,SOUTH').to('3,1,SOUTH')
         end
       end
 
@@ -94,7 +94,7 @@ module ToyRobotSimulator
         it 'moves the robot 1 unit toward WEST (first coordinate decrease)' do
           robot.place(table, [3, 2, :west])
 
-          expect{ robot.move }.to change{ robot.report }.from('3,2,WEST').to('2,2,WEST')
+          expect{ robot.move(table) }.to change{ robot.report }.from('3,2,WEST').to('2,2,WEST')
         end
       end
 
@@ -102,7 +102,7 @@ module ToyRobotSimulator
         it 'moves the robot 1 unit toward NORTH (second coordinate increase)' do
           robot.place(table, [3, 2, :north])
 
-          expect{ robot.move }.to change{ robot.report }.from('3,2,NORTH').to('3,3,NORTH')
+          expect{ robot.move(table) }.to change{ robot.report }.from('3,2,NORTH').to('3,3,NORTH')
         end
       end
     end
