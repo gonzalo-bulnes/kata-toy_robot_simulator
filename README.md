@@ -32,6 +32,8 @@ he robot situation is represented by the vector `(x,y,ORIENTATION)`, where `x` a
 - `MOVE` does move the robot one unit in the direction it is facing
 - `LEFT` and `RIGHT` do rotate it to its left, respectively right.
 
+**Note**: the robot cannot roam around if it is off the table! Don't forget to `PLACE` it before issuing furhter commands.
+
 Development
 -----------
 
