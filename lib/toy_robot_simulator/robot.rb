@@ -21,10 +21,10 @@ module ToyRobotSimulator
     #
     # table - the table where the robot is located, SHOULD be provided
     #
-    # Returns nil. (Mainly used to produce no output.)
+    # Returns the situation of the robot or nil if it is off the table
     def left(table=nil)
 
-      return hint_to_place_the_robot_on_the_table if off_the_table?
+      return nil if off_the_table?
 
       case situation.last
       when :north
@@ -36,7 +36,7 @@ module ToyRobotSimulator
       when :west
         @situation[2] = :south
       end
-      nil
+      situation
     end
 
     # Update the robot current situation to face the direction at its right
@@ -48,10 +48,10 @@ module ToyRobotSimulator
     #
     # table - the table where the robot is located, SHOULD be provided
     #
-    # Returns nil. (Mainly used to produce no output.)
+    # Returns the situation of the robot or nil if it is off the table
     def right(table=nil)
 
-      return hint_to_place_the_robot_on_the_table if off_the_table?
+      return nil if off_the_table?
 
       case situation.last
       when :north
@@ -63,17 +63,17 @@ module ToyRobotSimulator
       when :west
         @situation[2] = :north
       end
-      nil
+      situation
     end
 
     # Update the robot current situation one unit toward in the direction it faces if it's safe
     #
     # table - the Table where the robot is situated
     #
-    # Returns nil. (Mainly used to produce no output.)
+    # Returns the situation of the robot or nil if it is off the table
     def move(table)
 
-      return hint_to_place_the_robot_on_the_table if off_the_table?
+      return nil if off_the_table?
 
       next_situation = situation.dup
 
@@ -91,7 +91,7 @@ module ToyRobotSimulator
       next_location = next_situation.slice(0,2)
 
       @situation = next_situation unless table.beyond_boundaries?(next_location)
-      nil
+      situation
     end
 
     # Place the robot in the given situation if it is located on the table
@@ -99,13 +99,13 @@ module ToyRobotSimulator
     # table - the Table where the robot is situated
     # situation - the situation the robot should have
     #
-    # Returns nil. (Mainly used to produce no output.)
+    # Returns the situation of the robot or nil if it is off the table
     def place(table, situation)
       next_situation = situation.dup
 
       next_location = next_situation.slice(0,2)
       @situation = next_situation unless table.beyond_boundaries?(next_location)
-      nil
+      situation
     end
 
     # Return the robot current situation
@@ -116,16 +116,20 @@ module ToyRobotSimulator
     # You SHOULD provide it, again, but nobody is spying on you.
     #
     # table - the table where the robot is located, SHOULD be provided
+    #
+    # Returns the situation of the robot or nil if it is off the table
     def report(table=nil)
 
-      return hint_to_place_the_robot_on_the_table if off_the_table?
+      # situation is nil when off_the_table? but the following keeps the condition explicit
+      return nil if off_the_table?
 
-      situation.join(',').upcase
+      situation
     end
 
     private
 
       def hint_to_place_the_robot_on_the_table
+        raise 'DEPRECATED'
         'The robot is off the table. Hint: try to PLACE it.'
       end
 

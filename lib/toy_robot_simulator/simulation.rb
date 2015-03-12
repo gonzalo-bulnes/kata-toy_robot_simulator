@@ -42,18 +42,35 @@ module ToyRobotSimulator
         robot_command_arguments = [table] + robot_command # the remaining arguments and the table
 
         if @robot.respond_to? robot_command_name
-          command_output = @robot.send(robot_command_name, *robot_command_arguments)
+          command_response = @robot.send(robot_command_name, *robot_command_arguments)
+          command_output = format_response(command_response)
         end
         feedback =  " done\n"
       else
         feedback =  " invalid\n"
       end
 
+
       @output.print feedback
       @output.print "#{command_output}\n" unless command_output.nil?
     end
 
     private
+
+      # Format the command response for output
+      #
+      # Returns a formatted String
+      def format_response(command_response)
+        unless command_response.nil?
+          command_response.join(',').upcase
+        else
+          hint_to_place_the_robot_on_the_table
+        end
+      end
+
+      def hint_to_place_the_robot_on_the_table
+        'The robot is off the table. Hint: try to PLACE it.'
+      end
 
       # Private: Return known command or nil
       #
