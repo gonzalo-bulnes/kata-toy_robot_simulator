@@ -108,8 +108,7 @@ module ToyRobotSimulator
           # boundraries.
           # See http://www.relishapp.com/rspec/rspec-mocks/v/3-2/docs/working-with-legacy-code/any-instance
 
-          it 'does (quietly) nothing' do
-            pending 'Not yet fixed.'
+          it 'does (quietly) nothing', focus: true do
             simulation.input('PLACE 2,1,EAST')
 
             expect(output).to receive(:print).with "2,1,EAST\n"

@@ -61,6 +61,16 @@ module ToyRobotSimulator
           expect{ robot.place(table, [3, 5, :west]) }.to change{ robot.report }.from([0, 1, :north]).to([3, 5, :west])
         end
       end
+
+      context 'when the requested position is off the table', focus: true do
+
+        it 'does nothing' do
+          robot.place(table, [0, 1, :north]) # that's ok because the case has been tested just above!
+          allow(table).to receive(:beyond_boundaries?).with([3, 5]).and_return(true)
+
+          expect{ robot.place(table, [3, 5, :west]) }.not_to change{ robot.report }
+        end
+      end
     end
 
     describe '#move', public: true do

@@ -100,8 +100,8 @@ module ToyRobotSimulator
     # situation - the situation the robot should have
     #
     # Returns the situation of the robot or nil if it is off the table
-    def place(table, situation)
-      next_situation = situation.dup
+    def place(table, requested_situation)
+      next_situation = requested_situation.dup
 
       next_location = next_situation.slice(0,2)
       @situation = next_situation unless table.beyond_boundaries?(next_location)
