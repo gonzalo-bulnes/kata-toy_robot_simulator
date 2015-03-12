@@ -9,7 +9,7 @@ module ToyRobotSimulator
     private :situation
 
     def initialize
-      @situation = [0, 1, :north]
+      @situation = nil
     end
 
     # Update the robot current situation to face the direction at its left

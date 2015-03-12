@@ -73,9 +73,13 @@ module ToyRobotSimulator
 
       context 'when command is `REPORT`' do
 
-        it 'outputs the robot situation' do
-          expect(output).to receive(:print).with("0,1,NORTH\n")
-          simulation.input('REPORT')
+        context 'when the robot is on the table' do
+
+          it 'outputs the robot situation' do
+            simulation.input('PLACE 0,1,NORTH')
+            expect(output).to receive(:print).with("0,1,NORTH\n")
+            simulation.input('REPORT')
+          end
         end
       end
 

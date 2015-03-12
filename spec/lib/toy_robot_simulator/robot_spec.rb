@@ -26,30 +26,40 @@ module ToyRobotSimulator
       expect(robot).to respond_to :right
     end
 
-    it "by default is situated at '0,1,NORTH'", private: true do
-      expect(robot.send(:situation)).to eq [0, 1, :north]
+    it "by default is off the table", private: true do
+      expect(robot.send(:situation)).to eq nil
     end
 
     describe '#report', public: true do
 
-      it 'returns the robot current situation' do
-        expect(robot.report).to eq '0,1,NORTH'
+      it 'suggests to place it on the table' do
+        expect(robot.report).to eq 'The robot is off the table. Hint: try to PLACE it.'
       end
 
-      context 'when the robot is off the table' do
+      context 'when the robot is on the table' do
 
-        it 'suggests to place it on the table' do
-          allow(robot).to receive(:off_the_table?).and_return(true)
+        it 'returns the robot current situation' do
+          allow(robot).to receive(:situation).and_return([0, 1, :north])
+          allow(robot).to receive(:off_the_table?).and_return(false)
 
-          expect(robot.report).to eq 'The robot is off the table. Hint: try to PLACE it.'
+          expect(robot.report).to eq '0,1,NORTH'
         end
       end
     end
 
     describe '#place', public: true do
 
-      it 'updates the robot current situation' do
-        expect{ robot.place(table, [3, 5, :west]) }.to change{ robot.report }.from('0,1,NORTH').to('3,5,WEST')
+      it 'situates the robot on the table' do
+        expect{ robot.place(table, [3, 5, :west]) }.to change{ robot.report }.from("The robot is off the table. Hint: try to PLACE it.").to('3,5,WEST')
+      end
+
+      context 'when the robot is on the table' do
+
+        it 'updates the robot current situation' do
+          robot.place(table, [0, 1, :north]) # that's ok because the case has been tested just above!
+
+          expect{ robot.place(table, [3, 5, :west]) }.to change{ robot.report }.from('0,1,NORTH').to('3,5,WEST')
+        end
       end
     end
 
