@@ -3,8 +3,8 @@ require 'spec_helper'
 module ToyRobotSimulator
   describe Simulation do
 
-    let(:output)     { double('output')       }
-    let(:simulation) { Simulation.new(output) }
+    let(:output)     { double('output')             }
+    let(:simulation) { Simulation.new(output, true) }
 
     it 'can be started', public: true do
       expect(simulation).to respond_to :start
@@ -49,11 +49,26 @@ module ToyRobotSimulator
         simulation.input command
       end
 
-      describe 'discards invalid input' do
+      it 'unless the verbose mode is disabled' do
+        simulation = Simulation.new(output, false)
 
-        ['PLACE 1,2,EAST', 'PLACE 1,2,SOUTH', 'PLACE 0,0,WEST', 'PLACE 0,0,NORTH',
-         'PLACE 123,21,EAST', 'PLACE 11,2,SOUTH', 'PLACE 0,043,WEST', 'PLACE 0,10,NORTH',
-         'MOVE', 'REPORT',  'LEFT', 'RIGHT'].each do |command|
+        command = 'PLACE 0,0,SOUTH'
+        expect(output).not_to receive(:print)
+        simulation.input command
+      end
+
+      describe 'reports invalid input' do
+
+        valid_commands = ['PLACE 1,2,EAST', 'PLACE 1,2,SOUTH', 'PLACE 0,0,WEST', 'PLACE 0,0,NORTH',
+                          'PLACE 123,21,EAST', 'PLACE 11,2,SOUTH', 'PLACE 0,043,WEST',
+                          'PLACE 0,10,NORTH', 'MOVE', 'REPORT',  'LEFT', 'RIGHT']
+
+        invalid_commands = ['PLACE! 1,2,EAST', 'PLACE SOUTH,1,2', 'PLACE 0xB,0,WEST',
+                            'PRINT', 'report',  'ROTATE', 'LEFT RIGHT']
+
+        all_commands = valid_commands + invalid_commands
+
+        valid_commands.each do |command|
 
           it "\'#{command}\' is valid" do
             expect(output).to receive(:print).with " done\n"
@@ -61,12 +76,23 @@ module ToyRobotSimulator
           end
         end
 
-        ['PLACE! 1,2,EAST', 'PLACE SOUTH,1,2', 'PLACE 0xB,0,WEST',
-         'PRINT', 'report',  'ROTATE', 'LEFT RIGHT'].each do |command|
+        invalid_commands.each do |command|
 
           it "\'#{command}\' is invalid" do
             expect(output).to receive(:print).with " invalid\n"
             simulation.input command
+          end
+        end
+
+        context 'when the verbose mode is disabled' do
+
+          it 'outputs nothing but the REPORT reponse' do
+            simulation = Simulation.new(output, false)
+
+            all_commands.reject{ |command| command == 'REPORT' }.each do |command|
+              expect(output).not_to receive(:print)
+              simulation.input command
+            end
           end
         end
       end
@@ -77,6 +103,7 @@ module ToyRobotSimulator
 
           it 'outputs the robot situation' do
             simulation.input('PLACE 0,1,NORTH')
+
             expect(output).to receive(:print).with("0,1,NORTH\n")
             simulation.input('REPORT')
           end
@@ -85,9 +112,19 @@ module ToyRobotSimulator
 
       context 'when command is `PLACE`' do
 
-        it 'updates the robot situation quietly' do
+        it 'updates the robot situation and outputs feedback' do
+          expect(output).to receive(:print).with "2,1,EAST\n"
           simulation.input('PLACE 2,1,EAST')
-          expect(simulation.robot.report).to eq '2,1,EAST'
+        end
+
+        context 'when the verbose mode is disabled' do
+
+          let(:simulation) { Simulation.new(output, false) }
+
+          it 'updates the robot situation quietly' do
+            expect(output).not_to receive(:print)
+            simulation.input('PLACE 2,1,EAST')
+          end
         end
 
         context 'when the command would result in letting the robot off the table' do
@@ -107,40 +144,90 @@ module ToyRobotSimulator
           # boundraries.
           # See http://www.relishapp.com/rspec/rspec-mocks/v/3-2/docs/working-with-legacy-code/any-instance
 
-          it 'does (quietly) nothing' do
+          it 'does nothing but outputs feedback', focus: true do
             simulation.input('PLACE 2,1,EAST')
 
+            expect(output).to receive(:print).with "2,1,EAST\n"
             simulation.input('PLACE 6,3,EAST')
-            expect(simulation.robot.report).to eq '2,1,EAST'
+          end
+
+          context 'when the verbose mode is disabled' do
+
+            let(:simulation) { Simulation.new(output, false) }
+
+            it 'does (quietly) nothing', focus: true do
+              simulation.input('PLACE 2,1,EAST')
+
+              expect(output).not_to receive(:print)
+              simulation.input('PLACE 6,3,EAST')
+            end
           end
         end
       end
 
       context 'when command is `MOVE`' do
 
-        it 'updates the robot situation quietly' do
+        it 'updates the robot situation and outputs feedback' do
           simulation.input('PLACE 2,1,EAST')
+
+          expect(output).to receive(:print).with "3,1,EAST\n"
           simulation.input('MOVE')
-          expect(simulation.robot.report).to eq '3,1,EAST'
+        end
+
+        context 'when the verbose mode is disabled' do
+
+          let(:simulation) { Simulation.new(output, false) }
+
+          it 'updates the robot situation quietly' do
+            simulation.input('PLACE 2,1,EAST')
+
+          expect(output).not_to receive(:print)
+          simulation.input('MOVE')
+          end
         end
 
         context 'when the command would result in letting the robot fall off the table' do
 
-          it 'does (quietly) nothing' do
+          it 'does nothing but gives feedback' do
             simulation.input('PLACE 5,3,EAST')
 
+            expect(output).to receive(:print).with "5,3,EAST\n"
             simulation.input('MOVE')
-            expect(simulation.robot.report).to eq '5,3,EAST'
+          end
+
+          context 'when the verbose mode is disabled' do
+
+            let(:simulation) { Simulation.new(output, false) }
+
+            it 'does (quietly) nothing' do
+              simulation.input('PLACE 5,3,EAST')
+
+              expect(output).not_to receive(:print)
+              simulation.input('MOVE')
+            end
           end
         end
       end
 
       context 'when command is `LEFT`' do
 
-        it 'updates the robot orientation quietly' do
+        it 'updates the robot orientation and outputs feedback' do
           simulation.input('PLACE 2,1,EAST')
+
+          expect(output).to receive(:print).with "2,1,NORTH\n"
           simulation.input('LEFT')
-          expect(simulation.robot.report).to eq '2,1,NORTH'
+        end
+
+        context 'when the verbose mode is disabled' do
+
+          let(:simulation) { Simulation.new(output, false) }
+
+          it 'updates the robot situation quietly' do
+            simulation.input('PLACE 2,1,EAST')
+
+            expect(output).not_to receive(:print)
+            simulation.input('LEFT')
+          end
         end
       end
 
@@ -148,8 +235,21 @@ module ToyRobotSimulator
 
         it 'updates the robot orientation quietly' do
           simulation.input('PLACE 2,1,EAST')
+
+          expect(output).to receive(:print).with "2,1,SOUTH\n"
           simulation.input('RIGHT')
-          expect(simulation.robot.report).to eq '2,1,SOUTH'
+        end
+
+        context 'when the verbose mode is disabled' do
+
+          let(:simulation) { Simulation.new(output, false) }
+
+          it 'updates the robot situation quietly' do
+            simulation.input('PLACE 2,1,EAST')
+
+            expect(output).not_to receive(:print)
+            simulation.input('RIGHT')
+          end
         end
       end
     end

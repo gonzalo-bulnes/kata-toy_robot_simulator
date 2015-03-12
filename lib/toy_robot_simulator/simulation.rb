@@ -12,10 +12,16 @@ module ToyRobotSimulator
     # Return the simulated Table
     attr_reader :table
 
-    def initialize(output)
+    # Create a new simulation
+    #
+    # output - where command output and feedback will be printed
+    # verbose - wether or not feedback shall be printed (Boolean), true by default
+    #
+    def initialize(output, verbose=true)
       @output = output
       @robot = Robot.new
       @table = Table.new
+      @verbose = verbose
     end
 
     # Start the simulation so the user can input commands
@@ -32,7 +38,7 @@ module ToyRobotSimulator
     #
     # Returns nothing of interest.
     def input(command)
-      @output.print "#{command.chomp}..."
+      @output.print "#{command.chomp}..." if verbose?
 
       robot_command = known_command?(command)
 
@@ -42,18 +48,53 @@ module ToyRobotSimulator
         robot_command_arguments = [table] + robot_command # the remaining arguments and the table
 
         if @robot.respond_to? robot_command_name
-          command_output = @robot.send(robot_command_name, *robot_command_arguments)
+          command_response = @robot.send(robot_command_name, *robot_command_arguments)
+          command_output = format_response(robot_command_name, command_response)
         end
         feedback =  " done\n"
       else
         feedback =  " invalid\n"
       end
 
-      @output.print feedback
+      @output.print feedback if verbose?# unless feedback.nil?
+      #raise verbose?.inspect
       @output.print "#{command_output}\n" unless command_output.nil?
     end
 
+    def verbose?
+      @verbose
+    end
+
     private
+
+      # Format the command response for output
+      #
+      # Example:
+      #
+      #    format_response(:report, [1, 2, :west])
+      #    # => '1,2,WEST'
+      #
+      # Returns a formatted String
+      def format_response(robot_command_name, command_response)
+        if verbose?
+          unless command_response.nil?
+            command_response.join(',').upcase
+          else
+            hint_to_place_the_robot_on_the_table
+          end
+        else
+          # Only REPORT does produce output in quiet mode
+          unless command_response.nil? || robot_command_name != :report
+            command_response.join(',').upcase
+          else
+            nil
+          end
+        end
+      end
+
+      def hint_to_place_the_robot_on_the_table
+        'The robot is off the table. Hint: try to PLACE it.'
+      end
 
       # Private: Return known command or nil
       #

@@ -34,9 +34,24 @@ Iterations
   - Note: if the robot situation were to be defined as `(x, y, F)` that is _location_ and _orientation_, the MOVE, LEFT and RIGHT commands would be very similar.
 1. [[Done][PR#4]] Add initial situation condition (ignore input until the robot is PLACEd)
 1. [[Done][PR#5]] Add table boundaries constraints (I like the idea of defining the table through its boundaries, it's quite extensible) - **beware of possible invalid PLACE commands, they should not result in the robot being situated on the table!**)
-1. Add some color to output? (Could that produce noise in any terminals?)
+1. [Skipped in favo of the next topic] Add some color to output? (Could that produce noise in any terminals?)
+1. [[Done][PR#6]] Add setting to configure verbosity (I assumed output examples to demonstrate the expected minimum output, but in case it had been the **exact** expected output, the verbose mode is [easy to disable][verbose].)
 
   [PR#2]: https://github.com/gonzalo-bulnes/kata-toy_robot_simulator/pull/2
   [PR#3]: https://github.com/gonzalo-bulnes/kata-toy_robot_simulator/pull/3
   [PR#4]: https://github.com/gonzalo-bulnes/kata-toy_robot_simulator/pull/4
-  [PR#5]: https://github.com/gonzalo-bulnes/kata-toy_robot_simulator/pull/4
+  [PR#5]: https://github.com/gonzalo-bulnes/kata-toy_robot_simulator/pull/5
+  [PR#6]: https://github.com/gonzalo-bulnes/kata-toy_robot_simulator/pull/6
+  [verbose]: README.md#verbosity-settings
+
+Final thoughts
+--------------
+
+- That was quite long! :P
+- In case of wanting to extend the simulator by adding larger, smaller or non-square tables, modifying the Simulation constructor to inject the Table instance should not pose problem. From there, defining different tables consists in deining their boundaries (and there is no limit to how many boundaries a table can have ^^)
+- In case of wanting to extend the simulator by adding more robots (which sould not collide), I think I would relate the robots with the table in order to be able to represent the other robots as dynamic boundaries. At least I would try. (A static obstacle can already be represented as `Proc.new { |x, y| x = 3 && y = 2 }`.)
+- In case of wanting to extend the simulator by addng more commands, I think the commands interface is defined enough in the code to go forward.
+
+- Again, the safe space idea may be interesting if tables get larger and get more boundaries. I think it's something to keep in mind or review from time to time.
+
+I think it's enough for a _kata_, so let's stop and ship it.
