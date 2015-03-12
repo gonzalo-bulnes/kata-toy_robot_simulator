@@ -38,7 +38,7 @@ module ToyRobotSimulator
     #
     # Returns nothing of interest.
     def input(command)
-      @output.print "#{command.chomp}..."
+      @output.print "#{command.chomp}..." if verbose?
 
       robot_command = known_command?(command)
 
@@ -49,14 +49,15 @@ module ToyRobotSimulator
 
         if @robot.respond_to? robot_command_name
           command_response = @robot.send(robot_command_name, *robot_command_arguments)
-          command_output = format_response(command_response)
+          command_output = format_response(robot_command_name, command_response)
         end
         feedback =  " done\n"
       else
         feedback =  " invalid\n"
       end
 
-      @output.print feedback if verbose?
+      @output.print feedback if verbose?# unless feedback.nil?
+      #raise verbose?.inspect
       @output.print "#{command_output}\n" unless command_output.nil?
     end
 
@@ -68,12 +69,26 @@ module ToyRobotSimulator
 
       # Format the command response for output
       #
+      # Example:
+      #
+      #    format_response(:report, [1, 2, :west])
+      #    # => '1,2,WEST'
+      #
       # Returns a formatted String
-      def format_response(command_response)
-        unless command_response.nil?
-          command_response.join(',').upcase
+      def format_response(robot_command_name, command_response)
+        if verbose?
+          unless command_response.nil?
+            command_response.join(',').upcase
+          else
+            hint_to_place_the_robot_on_the_table
+          end
         else
-          hint_to_place_the_robot_on_the_table
+          # Only REPORT does produce output in quiet mode
+          unless command_response.nil? || robot_command_name != :report
+            command_response.join(',').upcase
+          else
+            nil
+          end
         end
       end
 

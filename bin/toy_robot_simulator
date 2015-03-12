@@ -2,7 +2,10 @@
 $LOAD_PATH.push File.join(File.dirname(__FILE__), "/../lib" )
 require 'toy_robot_simulator'
 
-simulation = ToyRobotSimulator::Simulation.new(STDOUT)
+# Set verbosity to false in order to disallow feedback destined to humans
+verbose = true
+
+simulation = ToyRobotSimulator::Simulation.new(STDOUT, verbose)
 simulation.start
 
 while command = gets

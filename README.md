@@ -37,6 +37,12 @@ The robot situation is represented by the vector `(x,y,ORIENTATION)`, where `x` 
 Development
 -----------
 
+### Verbosity settings
+
+The Toy Robot Simulator is verbose by default, because it is intended to be used interactively, i.e. by people. If a bare-minimum output was desired, the simulator can be made quiet by setting the `verbose = false` in [this file][bin].
+
+  [bin]: bin/toy_robot_simulator
+
 ### Testing and documentation
 
 [RSpec tags][tags] are used to categorize the spec examples.
