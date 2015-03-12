@@ -20,6 +20,8 @@ module ToyRobotSimulator
     # You SHOULD provide it, again, but nobody is spying on you.
     #
     # table - the table where the robot is located, SHOULD be provided
+    #
+    # Returns nil. (Mainly used to produce no output.)
     def left(table=nil)
 
       return hint_to_place_the_robot_on_the_table if off_the_table?
@@ -34,6 +36,7 @@ module ToyRobotSimulator
       when :west
         @situation[2] = :south
       end
+      nil
     end
 
     # Update the robot current situation to face the direction at its right
@@ -44,6 +47,8 @@ module ToyRobotSimulator
     # You SHOULD provide it, again, but nobody is spying on you.
     #
     # table - the table where the robot is located, SHOULD be provided
+    #
+    # Returns nil. (Mainly used to produce no output.)
     def right(table=nil)
 
       return hint_to_place_the_robot_on_the_table if off_the_table?
@@ -58,6 +63,7 @@ module ToyRobotSimulator
       when :west
         @situation[2] = :north
       end
+      nil
     end
 
     # Update the robot current situation one unit toward in the direction it faces
@@ -68,6 +74,8 @@ module ToyRobotSimulator
     # You SHOULD provide it, again, but nobody is spying on you.
     #
     # table - the table where the robot is located, SHOULD be provided
+    #
+    # Returns nil. (Mainly used to produce no output.)
     def move(table=nil)
 
       return hint_to_place_the_robot_on_the_table if off_the_table?
@@ -82,6 +90,7 @@ module ToyRobotSimulator
       when :west
         @situation[0] -= 1
       end
+      nil
     end
 
     # Place the robot on the table, in the given situation
