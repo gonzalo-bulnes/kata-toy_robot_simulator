@@ -33,9 +33,10 @@ Iterations
   - LEFT, RIGHT
   - Note: if the robot situation were to be defined as `(x, y, F)` that is _location_ and _orientation_, the MOVE, LEFT and RIGHT commands would be very similar.
 1. [[Done][PR#4]] Add initial situation condition (ignore input until the robot is PLACEd)
-1. Add table boundaries constraints (I like the idea of defining the table through its boundaries, it's quite extensible) - **beware of possible invalid PLACE commands, they should not result in the robot being situated on the table!**)
+1. [[Done][PR#5]] Add table boundaries constraints (I like the idea of defining the table through its boundaries, it's quite extensible) - **beware of possible invalid PLACE commands, they should not result in the robot being situated on the table!**)
 1. Add some color to output? (Could that produce noise in any terminals?)
 
   [PR#2]: https://github.com/gonzalo-bulnes/kata-toy_robot_simulator/pull/2
   [PR#3]: https://github.com/gonzalo-bulnes/kata-toy_robot_simulator/pull/3
   [PR#4]: https://github.com/gonzalo-bulnes/kata-toy_robot_simulator/pull/4
+  [PR#5]: https://github.com/gonzalo-bulnes/kata-toy_robot_simulator/pull/4
