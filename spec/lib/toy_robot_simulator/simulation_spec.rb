@@ -108,11 +108,9 @@ module ToyRobotSimulator
           # See http://www.relishapp.com/rspec/rspec-mocks/v/3-2/docs/working-with-legacy-code/any-instance
 
           it 'does (quietly) nothing' do
-            pending 'Not yet implemented.'
-            allow_any_instance_of(Table).to receive(:beyond_boundaries?).with([4, 3]).and_return(true)
             simulation.input('PLACE 2,1,EAST')
 
-            simulation.input('PLACE 4,3,EAST')
+            simulation.input('PLACE 6,3,EAST')
             expect(simulation.robot.report).to eq '2,1,EAST'
           end
         end
@@ -129,12 +127,10 @@ module ToyRobotSimulator
         context 'when the command would result in letting the robot fall off the table' do
 
           it 'does (quietly) nothing' do
-            pending 'Not yet implemented.'
-            allow_any_instance_of(Table).to receive(:beyond_boundaries?).with([4, 3]).and_return(true)
-            simulation.input('PLACE 3,3,EAST')
+            simulation.input('PLACE 5,3,EAST')
 
             simulation.input('MOVE')
-            expect(simulation.robot.report).to eq '3,3,EAST'
+            expect(simulation.robot.report).to eq '5,3,EAST'
           end
         end
       end
