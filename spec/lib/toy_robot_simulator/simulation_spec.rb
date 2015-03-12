@@ -89,6 +89,31 @@ module ToyRobotSimulator
           simulation.input('PLACE 2,1,EAST')
           expect(simulation.robot.report).to eq '2,1,EAST'
         end
+
+        context 'when the command would result in letting the robot off the table' do
+
+          # The Simulation instances depend on a Table instance. Creating the table
+          # (and the robot) is arguably part of the ToyRobotSimulator reponsibilities,
+          # and the separation of concerns principle would suggest to inject
+          # those dependencies into Simulation instances.
+          #
+          # That would also make easier to test behaviour that depends on
+          # table characteristics because one could inject distinct tables
+          # depending on the need.
+          #
+          # However, I find it's not worth doing that refactoring because using
+          # distinct tables is beyond scope. On the testing side, luckily, the milagrous
+          # `allow_any_instance_of` method exists which allows to ignore encapsulation
+          # boundraries.
+          # See http://www.relishapp.com/rspec/rspec-mocks/v/3-2/docs/working-with-legacy-code/any-instance
+
+          it 'does (quietly) nothing' do
+            simulation.input('PLACE 2,1,EAST')
+
+            simulation.input('PLACE 6,3,EAST')
+            expect(simulation.robot.report).to eq '2,1,EAST'
+          end
+        end
       end
 
       context 'when command is `MOVE`' do
@@ -97,6 +122,16 @@ module ToyRobotSimulator
           simulation.input('PLACE 2,1,EAST')
           simulation.input('MOVE')
           expect(simulation.robot.report).to eq '3,1,EAST'
+        end
+
+        context 'when the command would result in letting the robot fall off the table' do
+
+          it 'does (quietly) nothing' do
+            simulation.input('PLACE 5,3,EAST')
+
+            simulation.input('MOVE')
+            expect(simulation.robot.report).to eq '5,3,EAST'
+          end
         end
       end
 

@@ -66,41 +66,45 @@ module ToyRobotSimulator
       nil
     end
 
-    # Update the robot current situation one unit toward in the direction it faces
+    # Update the robot current situation one unit toward in the direction it faces if it's safe
     #
-    # The table where the robot is located is not necessary by itself,
-    # but it SHOULD be provided as a good practice in order to
-    # enforce a standard signature for command methods.
-    # You SHOULD provide it, again, but nobody is spying on you.
-    #
-    # table - the table where the robot is located, SHOULD be provided
+    # table - the Table where the robot is situated
     #
     # Returns nil. (Mainly used to produce no output.)
-    def move(table=nil)
+    def move(table)
 
       return hint_to_place_the_robot_on_the_table if off_the_table?
 
-      case situation.last
+      next_situation = situation.dup
+
+      case next_situation.last
       when :north
-        @situation[1] += 1
+        next_situation[1] += 1
       when :east
-        @situation[0] += 1
+        next_situation[0] += 1
       when :south
-        @situation[1] -= 1
+        next_situation[1] -= 1
       when :west
-        @situation[0] -= 1
+        next_situation[0] -= 1
       end
+
+      next_location = next_situation.slice(0,2)
+
+      @situation = next_situation unless table.beyond_boundaries?(next_location)
       nil
     end
 
-    # Place the robot on the table, in the given situation
+    # Place the robot in the given situation if it is located on the table
     #
-    # table - a Table
-    # situation - the situation the robot should have on the table
+    # table - the Table where the robot is situated
+    # situation - the situation the robot should have
     #
     # Returns nil. (Mainly used to produce no output.)
     def place(table, situation)
-      @situation = situation
+      next_situation = situation.dup
+
+      next_location = next_situation.slice(0,2)
+      @situation = next_situation unless table.beyond_boundaries?(next_location)
       nil
     end
 
