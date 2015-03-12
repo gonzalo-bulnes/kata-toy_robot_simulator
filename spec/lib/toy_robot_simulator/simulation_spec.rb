@@ -18,6 +18,10 @@ module ToyRobotSimulator
       expect(simulation).to respond_to :robot
     end
 
+    it 'involves a table', public: true do
+      expect(simulation).to respond_to :table
+    end
+
     context 'when started' do
 
       it 'outputs a welcome message', public: true do
@@ -69,15 +73,19 @@ module ToyRobotSimulator
 
       context 'when command is `REPORT`' do
 
-        it 'outputs the robot location' do
-          expect(output).to receive(:print).with("0,1,NORTH\n")
-          simulation.input('REPORT')
+        context 'when the robot is on the table' do
+
+          it 'outputs the robot situation' do
+            simulation.input('PLACE 0,1,NORTH')
+            expect(output).to receive(:print).with("0,1,NORTH\n")
+            simulation.input('REPORT')
+          end
         end
       end
 
       context 'when command is `PLACE`' do
 
-        it 'updates the robot location quietly' do
+        it 'updates the robot situation quietly' do
           simulation.input('PLACE 2,1,EAST')
           expect(simulation.robot.report).to eq '2,1,EAST'
         end
@@ -85,7 +93,7 @@ module ToyRobotSimulator
 
       context 'when command is `MOVE`' do
 
-        it 'updates the robot location quietly' do
+        it 'updates the robot situation quietly' do
           simulation.input('PLACE 2,1,EAST')
           simulation.input('MOVE')
           expect(simulation.robot.report).to eq '3,1,EAST'

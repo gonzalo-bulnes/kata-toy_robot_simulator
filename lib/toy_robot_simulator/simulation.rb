@@ -1,4 +1,5 @@
 require 'toy_robot_simulator/robot'
+require 'toy_robot_simulator/table'
 
 module ToyRobotSimulator
 
@@ -8,9 +9,13 @@ module ToyRobotSimulator
     # Return the simulated Robot
     attr_reader :robot
 
+    # Return the simulated Table
+    attr_reader :table
+
     def initialize(output)
       @output = output
       @robot = Robot.new
+      @table = Table.new
     end
 
     # Start the simulation so the user can input commands
@@ -33,10 +38,11 @@ module ToyRobotSimulator
 
       unless robot_command.nil?
 
-        robot_command_name = robot_command.first # just to make it obvious
+        robot_command_name = robot_command.shift # just to make it obvious
+        robot_command_arguments = [table] + robot_command # the remaining arguments and the table
 
         if @robot.respond_to? robot_command_name
-          command_output = @robot.send(*robot_command)
+          command_output = @robot.send(robot_command_name, *robot_command_arguments)
         end
         feedback =  " done\n"
       else
