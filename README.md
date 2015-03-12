@@ -23,16 +23,16 @@ Usage
 
 #### Conventions
 
-he robot situation is represented by the vector `(x,y,ORIENTATION)`, where `x` and `y` are integers and `ORIENTATION` is `SOUTH`, `EAST`, `NORTH` or `WEST`. Conventionally, `x` does increase toward `EAST` and decrease toward `WEST`, while `y` does increase toward `NORTH` and decrease toward `SOUTH`.
+The robot situation is represented by the vector `(x,y,ORIENTATION)`, where `x` and `y` are integers and `ORIENTATION` is `SOUTH`, `EAST`, `NORTH` or `WEST`. Conventionally, `x` does increase toward `EAST` and decrease toward `WEST`, while `y` does increase toward `NORTH` and decrease toward `SOUTH`.
 
 #### Index
 
 - `REPORT` does print the current robot situation
-- `PLACE x,y,ORIENTATION` does place the robot in the specified position with the proper orientation
-- `MOVE` does move the robot one unit in the direction it is facing
+- `PLACE x,y,ORIENTATION` does place the robot in the specified position with the proper orientation as long as that position is not off the table
+- `MOVE` does move the robot one unit in the direction it is facing if it won't make it fall off the table
 - `LEFT` and `RIGHT` do rotate it to its left, respectively right.
 
-**Note**: the robot cannot roam around if it is off the table! Don't forget to `PLACE` it before issuing furhter commands.
+**Note**: the robot cannot roam around if it is off the table! Don't forget to `PLACE` it on the table before issuing other commands.
 
 Development
 -----------
