@@ -12,10 +12,16 @@ module ToyRobotSimulator
     # Return the simulated Table
     attr_reader :table
 
-    def initialize(output)
+    # Create a new simulation
+    #
+    # output - where command output and feedback will be printed
+    # verbose - wether or not feedback shall be printed (Boolean), true by default
+    #
+    def initialize(output, verbose=true)
       @output = output
       @robot = Robot.new
       @table = Table.new
+      @verbose = verbose
     end
 
     # Start the simulation so the user can input commands
@@ -50,9 +56,12 @@ module ToyRobotSimulator
         feedback =  " invalid\n"
       end
 
-
-      @output.print feedback
+      @output.print feedback if verbose?
       @output.print "#{command_output}\n" unless command_output.nil?
+    end
+
+    def verbose?
+      @verbose
     end
 
     private
