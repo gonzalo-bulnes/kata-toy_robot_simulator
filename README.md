@@ -1,6 +1,8 @@
 Toy Robot Simulator Kata
 ========================
 
+[![Build Status](https://travis-ci.org/gonzalo-bulnes/kata-toy_robot_simulator.svg?branch=master)](https://travis-ci.org/gonzalo-bulnes/kata-toy_robot_simulator)
+
 A _kata_ which goal is simulating [a toy robot roaming around a table][problem].
 
   [problem]: PROBLEM.md
